@@ -1,0 +1,60 @@
+# macOS固有ファイル
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Xcode関連
+*.xcworkspace
+*.xcuserstate
+*.xcuserdata
+*.xcodeproj/*
+!*.xcodeproj/project.pbxproj
+!*.xcodeproj/xcshareddata/
+*.xcuserdatad/
+DerivedData/
+build/
+*.moved-aside
+*.xcsettings
+*.xccheckout
+*.xcscmblueprint
+
+# 一時ファイル・バックアップ
+*~
+*.swp
+*.swo
+*.tmp
+*.bak
+
+# Linux固有
+*core
+*.out
+
+# CMake/Make関連
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
+# バイナリ・オブジェクトファイル
+*.o
+*.obj
+*.so
+*.a
+*.exe
+*.dll
+
+# ログファイル
+*.log
+
+# ユーザー設定ファイル
+.vscode/
+.idea/
+
+# Python仮想環境（もし使う場合）
+venv/
+.env/
+
+# その他
+*.plist
+*.dSYM/
+main
