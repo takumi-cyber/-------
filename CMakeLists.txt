@@ -1,12 +1,11 @@
 cmake_minimum_required(VERSION 3.10)
 project(ODE_02_Project LANGUAGES CXX)
 
-set(CMAKE_OSX_SYSROOT macosx)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # ODE_02 ディレクトリ内の main.cpp をビルド対象にする
-add_executable(ode02_exec ODE_02/IC_solver.cpp)
+add_executable(ode02_exec ODE_2/IC_solver.cpp)
 
 # 数学関数を使う場合は math ライブラリをリンク
 target_link_libraries(ode02_exec m)
