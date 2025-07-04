@@ -1,4 +1,5 @@
 //ヤコビ法失敗
+//ブランチ変更したよ
 #pragma once
 #include <iostream>
 #include <fstream>
