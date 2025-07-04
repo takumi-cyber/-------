@@ -1,3 +1,4 @@
+//ヤコビ法失敗
 #pragma once
 #include <iostream>
 #include <fstream>
