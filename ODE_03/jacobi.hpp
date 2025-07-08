@@ -1,10 +1,12 @@
 //ヤコビ法失敗
 //ブランチ変更したよ
+//数値積分で収束の遅さを表現
 #pragma once
 #include <iostream>
 #include <fstream>
 #include <Eigen/Dense>
 #include <unordered_set>
+#include <iomanip>
 
 class Jacobi{
  private:
@@ -21,6 +23,7 @@ class Jacobi{
 public:
     std::unordered_set<size_t> Savetimes;
     std::filesystem::path filename;
+    std::filesystem::path logname;
     Jacobi(){
         std::cout << "Jacobi solver initialized." << std::endl;
         Savetimes.clear();
@@ -50,7 +53,15 @@ public:
     mySol[mySol.size() - 1] = Y1; // 右端の境界条件
     }   
 
-    bool Solve(size_t max_iter = 20000){
+    bool Solve(std::filesystem::path logname=""){
+        size_t max_iter = 0;
+        for(auto &n:Savetimes) max_iter=std::max(max_iter, n);//保存指定回数の最大値が，最大繰り返し数で，ええやん
+        std::ofstream lout;     // 記録を取るファイル．下で見えるように，ここで定義
+        if (!logname.empty())   // logname が指定されていれば記録を取る
+        {
+           std::filesystem::create_directories(logname.parent_path());
+           lout.open(logname);
+        }
         std::filesystem::create_directories(filename.parent_path());
         std::ofstream ofs(filename);
         size_t message_iter = 1000; // 途中で「XX回やったよ〜」とメッセージを出したい
@@ -80,14 +91,14 @@ public:
 
             x_old = x_new;
 
-            if (Savetimes.contains(iter)){
-                std::cout << "Iteration=" << iter <<": "<< "ERROR=" << err << " "<<"Saving to [" << filename.string() << std::endl;
-                ofs << std::endl << "# iter = " << iter << std::endl;
-                ofs << 0 * dx << " " << Y0 << std::endl;
-                for(size_t i=0;i<x_new.size();++i) ofs << (i+1)*dx << " " << x_new[i] << std::endl; 
-                ofs << x_new.size() * dx << " " << Y1 << std::endl;
-            }
-            
+            if (lout)   // 記録を取る場合
+           {
+               double sum=0.0,x_pre=Y0;
+               for(auto& v:x_new) sum+=(x_pre*x_pre+v*v)*dx*0.5, x_pre=v;
+               sum+=(x_pre+Y1*Y1)*dx*0.5;
+               lout << iter << " " << std::setprecision(15) << std::sqrt(sum) << std::endl;
+           }
+
         }
         if (iter == max_iter)
             std::cout << "Timeout. Error= " << err << std::endl;
