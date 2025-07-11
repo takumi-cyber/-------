@@ -22,7 +22,6 @@ class Jacobi{
 
 public:
     std::unordered_set<size_t> Savetimes;
-    std::filesystem::path filename;
     std::filesystem::path logname;
     Jacobi(){
         std::cout << "Jacobi solver initialized." << std::endl;
@@ -62,8 +61,7 @@ public:
            std::filesystem::create_directories(logname.parent_path());
            lout.open(logname);
         }
-        std::filesystem::create_directories(filename.parent_path());
-        std::ofstream ofs(filename);
+
         size_t message_iter = 1000; // 途中で「XX回やったよ〜」とメッセージを出したい
         double tol = 1e-04;         // 途中でもズレがこの値になったら中断して良いことにする（収束限界）
         Eigen::VectorXd x_old = myVec;
@@ -108,23 +106,5 @@ public:
         for (int i = 0; i < myMat.rows(); ++i)
             mySol[i + 1] = x_new[i];
         return iter != max_iter; // 収束したかどうかを返す
-    }
-
-    void Save(std::filesystem::path filename){
-        if(!filename.parent_path().empty()){
-            std::filesystem::create_directories(filename.parent_path());
-        }
-        std::ofstream ofs(filename);
-        for(int i = 0; i < mySol.size(); ++i)
-            ofs << i * dx << " " << mySol[i] << std::endl;
-        ofs.close();
-    }
-
-    void Inv(){
-        auto Sol = myMat.inverse() * myVec; // 逆行列を計算してベクトルと掛ける
-        mySol[0] = Y0; // 左端の境界条件
-        for(int i = 0; i < Sol.size(); ++i)
-            mySol[i + 1] = Sol[i]; // 右端の境界条件
-        mySol[mySol.size() - 1] = Y1; // 右端の境界条件
     }
 };
