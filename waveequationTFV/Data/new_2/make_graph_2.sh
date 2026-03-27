@@ -33,4 +33,4 @@ cat > $TMP/legend.dat <<@
 0.4 1.1 l: 1.00
 @
 LEGEND=$TMP/legend.dat
-draw step_CFL12.5_nu1.0mu0.5_im.pdf step_CFL12.5_t0.00_nu1.0mu0.5_im.dat step_CFL12.5_t0.25_nu1.0mu0.5_im.dat step_CFL12.5_t0.50_nu1.0mu0.5_im.dat step_CFL12.5_t0.75_nu1.0mu0.5_im.dat step_CFL12.5_t1.00_nu1.0mu0.5_im.dat
+draw step_CFL2.5_nu1000.0mu500.0_CN_CD.pdf step_CFL2.5_t0.00_nu1000.0mu500.0_CN_CD.dat step_CFL2.5_t0.25_nu1000.0mu500.0_CN_CD.dat step_CFL2.5_t0.50_nu1000.0mu500.0_CN_CD.dat step_CFL2.5_t0.75_nu1000.0mu500.0_CN_CD.dat step_CFL2.5_t1.00_nu1000.0mu500.0_CN_CD.dat

@@ -5,13 +5,13 @@ import matplotlib.pyplot as plt
 # ----------------------------
 # 設定
 # ----------------------------
-NX_list = [50, 100, 200, 400, 600, 800, 1000]
+NX_list = [100, 200, 400, 600, 800, 1000]
 dx_list = [1.0/NX for NX in NX_list]
 
 t_eval = 1.0
 
 # 解析解ファイル
-exact_file = "u_t1.00_sin_exact_nu1.0mu0.5.dat"
+exact_file = "u_t1.00_step_exact_nu1.0mu0.5.dat"
 data_exact = np.loadtxt(exact_file)
 x_exact = data_exact[:,0]
 u_exact = data_exact[:,1]
@@ -28,7 +28,7 @@ errors_Linf = []
 for NX, dx in zip(NX_list, dx_list):
 
     # 数値解ファイル
-    num_file = f"sin_CFL12.5_t1.00_nu1.0mu0.5_CN_CD_{NX}.dat"
+    num_file = f"step_CFL12.5_t1.00_nu1.0mu0.5_CN_CD_{NX}.dat"
     data_num = np.loadtxt(num_file)
     x_num = data_num[:,0]
     u_num = data_num[:,1]
@@ -76,25 +76,25 @@ plt.figure(figsize=(6,6))
 
 # 絶対L2誤差とL∞誤差
 plt.loglog(dx_list, errors_abs_L2, 'o-', label=r'Absolute $L_2$')
-#plt.loglog(dx_list, errors_Linf, 's-', label=r'$L_\infty$')
+plt.loglog(dx_list, errors_Linf, 's-', label=r'$L_\infty$')
 
-# 参考直線用の係数（最初の点に合わせる）
-#C1 = errors_abs_L2[0] / dx_list[0]          # 1次用
-#C05 = errors_abs_L2[0] / (dx_list[0]**0.5)  # 0.5次用
+#参考直線用の係数（最初の点に合わせる）
+C1 = errors_abs_L2[0] / dx_list[0]          # 1次用
+C05 = errors_abs_L2[0] / (dx_list[0]**0.5)  # 0.5次用
 
 #一次、二次精度用
-dx0 = dx_list[0]
-err0 = errors_abs_L2[0]
+#dx0 = dx_list[0]
+#err0 = errors_abs_L2[0]
 
 # 1次線
-plt.loglog(dx_list, (err0/dx0) * np.array(dx_list), '--', label='1st order')
+#plt.loglog(dx_list, (err0/dx0) * np.array(dx_list), '--', label='1st order')
 
 # 2次線
-plt.loglog(dx_list, (err0/(dx0**2)) * np.array(dx_list)**2, ':', label='2nd order')
+#plt.loglog(dx_list, (err0/(dx0**2)) * np.array(dx_list)**2, ':', label='2nd order')
 
 #一次、0.5次精度用
-#plt.loglog(dx_list, C1*np.array(dx_list), '--', label='1st order')
-#plt.loglog(dx_list, C05*np.array(dx_list)**0.5, ':', label='0.5 order')
+plt.loglog(dx_list, C1*np.array(dx_list), '--', label='1st order')
+plt.loglog(dx_list, C05*np.array(dx_list)**0.5, ':', label='0.5 order')
 
 # ----------------------------
 plt.xlabel(r'$\Delta x$', fontsize=18, labelpad=5)  
